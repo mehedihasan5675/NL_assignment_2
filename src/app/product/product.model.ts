@@ -10,7 +10,11 @@ const inventorySchema = new Schema<TInventory>({
     type: Number,
     required: [true, 'The quantity field is required'],
   },
-  inStock: { type: Boolean, required: [true, 'The inStock field is required'] },
+  inStock: {
+    type: Boolean,
+    default: true,
+    required: [true, 'The inStock field is required'],
+  },
 })
 const productSchema = new Schema<TProduct>({
   name: { type: String, required: [true, 'The name field is required'] },
