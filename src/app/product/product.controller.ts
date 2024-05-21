@@ -12,10 +12,11 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product is created successfully !',
       data: result,
     })
-  } catch (err: any) {
+  } catch (err) {
+    const errorMessage = (err as Error).message
     res.status(500).json({
       success: false,
-      message: err.message || 'something went wrong to create product',
+      message: errorMessage || 'something went wrong to create product',
       error: err,
     })
   }
@@ -29,15 +30,38 @@ const getAllProduct = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     })
-  } catch (err: any) {
+  } catch (err) {
+    const errorMessage = (err as Error).message
     res.status(500).json({
       success: false,
-      message: err.message || 'something went wrong to get all product',
+      message: errorMessage || 'something went wrong to get all product',
       error: err,
     })
   }
 }
-
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId
+    const updateData = req.body
+    const result = await ProductServices.UpdateProductIntoDB(
+      productId,
+      updateData,
+    )
+    console.log(result)
+    res.json({
+      success: true,
+      message: 'Products updated successfully!',
+      data: result,
+    })
+  } catch (err) {
+    const errorMessage = (err as Error).message
+    res.status(500).json({
+      success: false,
+      message: errorMessage || 'something went wrong to get all product',
+      error: err,
+    })
+  }
+}
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId
@@ -47,10 +71,11 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     })
-  } catch (err: any) {
+  } catch (err) {
+    const errorMessage = (err as Error).message
     res.status(500).json({
       success: false,
-      message: err.message || 'something went wrong to get all product',
+      message: errorMessage || 'something went wrong to get all product',
       error: err,
     })
   }
@@ -59,4 +84,5 @@ export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProduct,
+  updateProduct,
 }
