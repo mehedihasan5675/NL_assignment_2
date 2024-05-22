@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
+import notFound from './app/handleErorr/notfound'
 import { OrderRouters } from './app/order/order.routes'
 import { ProductRouters } from './app/product/product.routes'
 const app: Application = express()
@@ -12,5 +13,7 @@ app.use('/api/orders', OrderRouters)
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
 })
+//handle404
+app.use(notFound)
 
 export default app

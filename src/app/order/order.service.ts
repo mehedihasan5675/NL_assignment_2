@@ -7,9 +7,9 @@ const createOrderIntoDB = async (orderData: TOrder) => {
   const productFullData = await Product.findById(orderId)
 
   if (!productFullData) {
-    throw new Error('Product not found in inventory')
+    throw new Error('Order not found')
   } else if (orderData.quantity > productFullData?.inventory?.quantity) {
-    throw new Error('Insufficient stock')
+    throw new Error('Insufficient quantity available in inventory')
   }
   //create Order =>main login start here
   else if (orderData.quantity <= productFullData?.inventory?.quantity) {
@@ -22,7 +22,7 @@ const createOrderIntoDB = async (orderData: TOrder) => {
     const result = await Order.create(orderData)
     return result
   } else {
-    throw new Error('something went wrong')
+    throw new Error('Order not found')
   }
 }
 
