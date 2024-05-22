@@ -62,10 +62,30 @@ const updateProduct = async (req: Request, res: Response) => {
     })
   }
 }
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId
+    const result = await ProductServices.deleteSingleProductFromDB(productId)
+    res.json({
+      success: true,
+      message: 'Products deleted successfully!',
+      data: result,
+    })
+  } catch (err) {
+    const errorMessage = (err as Error).message
+    res.status(500).json({
+      success: false,
+      message: errorMessage || 'something went wrong to get all product',
+      error: err,
+    })
+  }
+}
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId
     const result = await ProductServices.getSingleProductFromDB(productId)
+
     res.json({
       success: true,
       message: 'Products fetched successfully!',
@@ -85,4 +105,5 @@ export const ProductController = {
   getAllProduct,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 }
