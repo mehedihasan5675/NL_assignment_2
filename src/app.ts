@@ -1,8 +1,9 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
-import notFound from './app/handleErorr/notfound'
+
 import { OrderRouters } from './app/order/order.routes'
 import { ProductRouters } from './app/product/product.routes'
+import notFound from './app/utils/notfound'
 const app: Application = express()
 //parsers
 app.use(express.json())
