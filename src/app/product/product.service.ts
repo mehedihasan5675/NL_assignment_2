@@ -26,6 +26,21 @@ const deleteSingleProductFromDB = async (productId: string) => {
     throw new Error(`Unable to update product: ${errorMessage}`)
   }
 }
+const getProductBySearchFromDB = async (searchText: string) => {
+  try {
+    const result = await Product.find({
+      $or: [
+        { name: { $regex: searchText, $options: 'i' } },
+        { description: { $regex: searchText, $options: 'i' } },
+      ],
+    })
+
+    return result
+  } catch (error) {
+    const errorMessage = (error as Error).message
+    throw new Error(`Unable to update product: ${errorMessage}`)
+  }
+}
 const UpdateProductIntoDB = async (
   productId: string,
   updatedData: Partial<TProduct>,
@@ -53,4 +68,5 @@ export const ProductServices = {
   getSingleProductFromDB,
   UpdateProductIntoDB,
   deleteSingleProductFromDB,
+  getProductBySearchFromDB,
 }
