@@ -22,7 +22,7 @@ const createProduct = async (req: Request, res: Response) => {
   }
 }
 
-const getAllProduct = async (req: Request, res: Response) => {
+const getAllProductOrSearchProduct = async (req: Request, res: Response) => {
   try {
     const searchTermText = req.query.searchTerm
     if (searchTermText) {
@@ -89,7 +89,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.deleteSingleProductFromDB(productId)
     res.json({
       success: true,
-      message: 'Products deleted successfully!',
+      message: 'Product deleted successfully!',
       data: result,
     })
   } catch (err) {
@@ -123,7 +123,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 export const ProductController = {
   createProduct,
-  getAllProduct,
+  getAllProductOrSearchProduct,
   getSingleProduct,
   updateProduct,
   deleteProduct,
