@@ -1,9 +1,29 @@
+import { Product } from '../product/product.model'
 import { TOrder } from './order.interface'
 import Order from './order.model'
 
 const createOrderIntoDB = async (orderData: TOrder) => {
-  const result = await Order.create(orderData)
-  return result
+  const orderId = orderData.productId
+  const productFullData = await Product.findById(orderId)
+
+  if (!productFullData) {
+    throw new Error('Product not found in inventory')
+  } else if (orderData.quantity > productFullData?.inventory?.quantity) {
+    throw new Error('Insufficient stock')
+  }
+  //create Order =>main login start here
+  else if (orderData.quantity <= productFullData?.inventory?.quantity) {
+    // Reduce the inventory quantity
+    productFullData.inventory.quantity -= orderData.quantity
+
+    // Update inStock status
+    productFullData.inventory.inStock = productFullData.inventory.quantity > 0
+    await productFullData.save()
+    const result = await Order.create(orderData)
+    return result
+  } else {
+    throw new Error('something went wrong')
+  }
 }
 
 const getAllOrderFromDB = async () => {
